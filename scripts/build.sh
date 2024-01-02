@@ -134,8 +134,8 @@ build_ios() {
    rm -rf "${SCRIPT_DIR}"/../{iphonesimulator/*}
    rm -rf "${SCRIPT_DIR}"/../{iphonesimulator_arm64/*}
    
-   mkdir -p "${SCRIPT_DIR}"/../{iphonesimulator, iphonesimulator/include}
-   mkdir -p "${SCRIPT_DIR}"/../{iphonesimulator_arm64, iphonesimulator_arm64/include}
+   mkdir -p "${SCRIPT_DIR}"/../{iphonesimulator,iphonesimulator/include}
+   mkdir -p "${SCRIPT_DIR}"/../{iphonesimulator_arm64,iphonesimulator_arm64/include}
 
    build "x86_64" "iPhoneSimulator" ${TMP_BUILD_DIR} "iphonesimulator"
    build "arm64" "iPhoneSimulator" ${TMP_BUILD_DIR} "iphonesimulator_arm64"
@@ -143,8 +143,8 @@ build_ios() {
    # The World is not ready for arm64e!
    # build "arm64e" "iPhoneSimulator" ${TMP_BUILD_DIR} "iphonesimulator"
 
-   rm -rf "${SCRIPT_DIR}"/../iphoneos/*}
-   mkdir -p "${SCRIPT_DIR}"/../iphoneos/include}
+   rm -rf "${SCRIPT_DIR}"/../iphoneos/*
+   mkdir -p "${SCRIPT_DIR}"/../iphoneos/include
 
    build "arm64" "iPhoneOS" ${TMP_BUILD_DIR} "iphoneos"
 
@@ -157,6 +157,10 @@ build_ios() {
    # Copy headers
    ditto "${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneSimulator-arm64/include/openssl" "${SCRIPT_DIR}/../iphonesimulator/include/openssl"
    cp -f "${SCRIPT_DIR}/../shim/shim.h" "${SCRIPT_DIR}/../iphonesimulator/include/openssl/shim.h"
+   
+   # Copy headers
+   ditto "${TMP_BUILD_DIR}/${OPENSSL_VERSION}-iPhoneSimulator-arm64/include/openssl" "${SCRIPT_DIR}/../iphonesimulator_arm64/include/openssl"
+   cp -f "${SCRIPT_DIR}/../shim/shim.h" "${SCRIPT_DIR}/../iphonesimulator_arm64/include/openssl/shim.h"
 
    # fix inttypes.h
    find "${SCRIPT_DIR}/../iphoneos/include/openssl" -type f -name "*.h" -exec sed -i "" -e "s/include <inttypes\.h>/include <sys\/types\.h>/g" {} \;
